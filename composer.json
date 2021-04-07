@@ -19,8 +19,7 @@
             "email": "michelangelo.lacatena@gmail.com"
         }
     ],
-    "require": {:w
-
+    "require": {
         "php": "^7.2 || ^8.0",
         "ext-json": "*",
         "barryvdh/reflection-docblock": "^2.0.6",
