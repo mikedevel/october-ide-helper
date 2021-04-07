@@ -75,7 +75,7 @@ class ModelsCommand extends Command
      *
      * @var string
      */
-    protected $name = 'october-ide-helper:models';
+    protected $name = 'mikedevs:october-ide-helper:models';
     protected $filename = '_ide_helper_models.php';
 
     /**

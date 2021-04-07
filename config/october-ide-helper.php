@@ -119,7 +119,7 @@ return [
     | Model locations to include
     |--------------------------------------------------------------------------
     |
-    | Define in which directories the october-ide-helper:models command should look
+    | Define in which directories the mikedevs:october-ide-helper:models command should look
     | for models.
     |
     | glob patterns are supported to easier reach models in sub-directories,
@@ -302,7 +302,7 @@ return [
     |
     */
     'post_migrate' => [
-        // 'october-ide-helper:models --nowrite',
+        // 'mikedevs:october-ide-helper:models --nowrite',
     ],
 
 ];

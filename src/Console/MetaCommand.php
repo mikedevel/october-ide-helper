@@ -28,7 +28,7 @@ class MetaCommand extends Command
      *
      * @var string
      */
-    protected $name = 'october-ide-helper:meta';
+    protected $name = 'mikedevs:october-ide-helper:meta';
 
     /**
      * The console command description.

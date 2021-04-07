@@ -27,7 +27,7 @@ class EloquentCommand extends Command
      *
      * @var string
      */
-    protected $name = 'october-ide-helper:eloquent';
+    protected $name = 'mikedevs:october-ide-helper:eloquent';
 
     /**
      * @var Filesystem $files

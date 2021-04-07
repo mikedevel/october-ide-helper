@@ -30,7 +30,7 @@ class GeneratorCommand extends Command
      *
      * @var string
      */
-    protected $name = 'october-ide-helper:generate';
+    protected $name = 'mikedevs:october-ide-helper:generate';
 
     /**
      * The console command description.
