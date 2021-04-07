@@ -1,5 +1,5 @@
 {
-    "name": "mikedevs/october-october-ide-helper",
+    "name": "mikedeveloper/october-ide-helper",
     "description": "October IDE Helper, generates correct PHPDocs for all Facade classes, to improve auto-completion.",
     "keywords": [
         "laravel",
@@ -19,7 +19,8 @@
             "email": "michelangelo.lacatena@gmail.com"
         }
     ],
-    "require": {
+    "require": {:w
+
         "php": "^7.2 || ^8.0",
         "ext-json": "*",
         "barryvdh/reflection-docblock": "^2.0.6",
