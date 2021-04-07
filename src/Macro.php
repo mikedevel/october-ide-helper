@@ -2,8 +2,8 @@
 
 namespace Mikedevs\OctoberIdeHelper;
 
-use Mikedevs\Reflection\DocBlock;
-use Mikedevs\Reflection\DocBlock\Tag;
+use Barryvdh\Reflection\DocBlock;
+use Barryvdh\Reflection\DocBlock\Tag;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Support\Collection;
 

@@ -11,12 +11,12 @@
 
 namespace Mikedevs\OctoberIdeHelper;
 
-use Mikedevs\Reflection\DocBlock;
-use Mikedevs\Reflection\DocBlock\Context;
-use Mikedevs\Reflection\DocBlock\Serializer as DocBlockSerializer;
-use Mikedevs\Reflection\DocBlock\Tag;
-use Mikedevs\Reflection\DocBlock\Tag\ParamTag;
-use Mikedevs\Reflection\DocBlock\Tag\ReturnTag;
+use Barryvdh\Reflection\DocBlock;
+use Barryvdh\Reflection\DocBlock\Context;
+use Barryvdh\Reflection\DocBlock\Serializer as DocBlockSerializer;
+use Barryvdh\Reflection\DocBlock\Tag;
+use Barryvdh\Reflection\DocBlock\Tag\ParamTag;
+use Barryvdh\Reflection\DocBlock\Tag\ReturnTag;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 

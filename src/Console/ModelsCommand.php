@@ -12,10 +12,10 @@
 namespace Mikedevs\OctoberIdeHelper\Console;
 
 use Mikedevs\OctoberIdeHelper\Contracts\ModelHookInterface;
-use Mikedevs\Reflection\DocBlock;
-use Mikedevs\Reflection\DocBlock\Context;
-use Mikedevs\Reflection\DocBlock\Serializer as DocBlockSerializer;
-use Mikedevs\Reflection\DocBlock\Tag;
+use Barryvdh\Reflection\DocBlock;
+use Barryvdh\Reflection\DocBlock\Context;
+use Barryvdh\Reflection\DocBlock\Serializer as DocBlockSerializer;
+use Barryvdh\Reflection\DocBlock\Tag;
 use Composer\Autoload\ClassMapGenerator;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
