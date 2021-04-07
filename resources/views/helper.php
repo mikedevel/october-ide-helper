@@ -15,9 +15,6 @@
  * Generated for Laravel <?= $version ?>.
  *
  * This file should not be included in your code, only analyzed by your IDE!
- *
- * @author Barry vd. Heuvel <barryvdh@gmail.com>
- * @see https://github.com/barryvdh/october-october-ide-helper
  */
 
 <?php foreach ($namespaces_by_extends_ns as $namespace => $aliases) : ?>

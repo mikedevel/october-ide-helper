@@ -2,11 +2,6 @@
 
 /**
  * Laravel IDE Helper Generator - Eloquent Model Mixin
- *
- * @author    Charles A. Peterson <artistan@gmail.com>
- * @copyright 2017 Charles A. Peterson / Fruitcake Studio (http://www.fruitcakestudio.nl)
- * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/barryvdh/october-october-ide-helper
  */
 
 namespace Mikedevs\OctoberIdeHelper\Console;
