@@ -112,5 +112,3 @@ namespace <?=$factory->getNamespaceName()?> {
     class <?=$factory->getShortName()?>FactoryBuilder extends \Illuminate\Database\Eloquent\FactoryBuilder {}
 }
 <?php endforeach; ?>
-
-@property string $stocazzo

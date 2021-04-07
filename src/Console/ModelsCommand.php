@@ -148,9 +148,9 @@ class ModelsCommand extends Command
         //If filename is default and Write is not specified, ask what to do
         if (!$this->write && $filename === $this->filename && !$this->option('nowrite')) {
             if (
-                $this->confirm(
-                    "Do you want to overwrite the existing model files? Choose no to write to $filename instead"
-                )
+            $this->confirm(
+                "Do you want to overwrite the existing model files? Choose no to write to $filename instead"
+            )
             ) {
                 $this->write = true;
             }
@@ -181,7 +181,7 @@ class ModelsCommand extends Command
     protected function getArguments()
     {
         return [
-          ['model', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, 'Which models to include', []],
+            ['model', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, 'Which models to include', []],
         ];
     }
 
@@ -193,21 +193,21 @@ class ModelsCommand extends Command
     protected function getOptions()
     {
         return [
-          ['filename', 'F', InputOption::VALUE_OPTIONAL, 'The path to the helper file', $this->filename],
-          ['dir', 'D', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-              'The model dir, supports glob patterns', [], ],
-          ['write', 'W', InputOption::VALUE_NONE, 'Write to Model file'],
-          ['write-mixin', 'M', InputOption::VALUE_NONE,
-              "Write models to {$this->filename} and adds @mixin to each model, avoiding IDE duplicate declaration warnings",
-          ],
-          ['nowrite', 'N', InputOption::VALUE_NONE, 'Don\'t write to Model file'],
-          ['reset', 'R', InputOption::VALUE_NONE, 'Remove the original phpdocs instead of appending'],
-          ['smart-reset', 'r', InputOption::VALUE_NONE, 'Refresh the properties/methods list, but keep the text'],
-          ['phpstorm-noinspections', 'p', InputOption::VALUE_NONE,
-              'Add PhpFullyQualifiedNameUsageInspection and PhpUnnecessaryFullyQualifiedNameInspection PHPStorm ' .
-              'noinspection tags',
-          ],
-          ['ignore', 'I', InputOption::VALUE_OPTIONAL, 'Which models to ignore', ''],
+            ['filename', 'F', InputOption::VALUE_OPTIONAL, 'The path to the helper file', $this->filename],
+            ['dir', 'D', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                'The model dir, supports glob patterns', [],],
+            ['write', 'W', InputOption::VALUE_NONE, 'Write to Model file'],
+            ['write-mixin', 'M', InputOption::VALUE_NONE,
+                "Write models to {$this->filename} and adds @mixin to each model, avoiding IDE duplicate declaration warnings",
+            ],
+            ['nowrite', 'N', InputOption::VALUE_NONE, 'Don\'t write to Model file'],
+            ['reset', 'R', InputOption::VALUE_NONE, 'Remove the original phpdocs instead of appending'],
+            ['smart-reset', 'r', InputOption::VALUE_NONE, 'Refresh the properties/methods list, but keep the text'],
+            ['phpstorm-noinspections', 'p', InputOption::VALUE_NONE,
+                'Add PhpFullyQualifiedNameUsageInspection and PhpUnnecessaryFullyQualifiedNameInspection PHPStorm ' .
+                'noinspection tags',
+            ],
+            ['ignore', 'I', InputOption::VALUE_OPTIONAL, 'Which models to ignore', ''],
         ];
     }
 
@@ -283,8 +283,8 @@ class ModelsCommand extends Command
 
                     $this->runModelHooks($model);
 
-                    $output                .= $this->createPhpDocs($name);
-                    $ignore[]              = $name;
+                    $output .= $this->createPhpDocs($name);
+                    $ignore[] = $name;
                     $this->nullableColumns = [];
                 } catch (Throwable $e) {
                     $this->error('Exception: ' . $e->getMessage() .
@@ -601,87 +601,135 @@ class ModelsCommand extends Command
                         $code .= $file->current();
                         $file->next();
                     }
-                    $code = trim(preg_replace('/\s\s+/', '', $code));
-                    $begin = strpos($code, 'function(');
-                    $code = substr($code, $begin, strrpos($code, '}') - $begin + 1);
+//                    $code = trim(preg_replace('/\s\s+/', '', $code));
+//                    $begin = strpos($code, 'function(');
+//                    $code = substr($code, $begin, strrpos($code, '}') - $begin + 1);
 
-                    foreach (
-                        $this->getRelationTypes() as $relation => $impl
-                    ) {
-                        $search = '$this->' . $relation . '(';
-                        if (stripos($code, $search) || ltrim($impl, '\\') === ltrim((string)$type, '\\')) {
-                            //Resolve the relation's model to a Relation object.
-                            $methodReflection = new \ReflectionMethod($model, $method);
-                            if ($methodReflection->getNumberOfParameters()) {
-                                continue;
-                            }
+                    foreach ($this->getRelationTypes() as $relation => $impl) {
 
-                            $comment = $this->getCommentFromDocBlock($reflection);
-                            // Adding constraints requires reading model properties which
-                            // can cause errors. Since we don't need constraints we can
-                            // disable them when we fetch the relation to avoid errors.
-                            $relationObj = Relation::noConstraints(function () use ($model, $method) {
-                                try {
-                                    return $model->$method();
-                                } catch (Throwable $e) {
-                                    $this->warn(sprintf('Error resolving relation model of %s:%s() : %s', get_class($model), $method, $e->getMessage()));
+                        foreach ($model->$relation as $prop => $class) {
 
-                                    return null;
-                                }
-                            });
+                            $class = is_array($class) ? $class[0] : $class;
+                            $relatedClass = '\\' . get_class($class);
 
-                            if ($relationObj instanceof Relation) {
-                                $relatedModel = $this->getClassNameInDestinationFile(
+                            if (strpos($prop, 'Many') !== false) {
+                                //Collection or array of models (because Collection is Arrayable)
+                                $collectionClass = $this->getCollectionClass($relatedClass);
+                                $collectionClassNameInModel = $this->getClassNameInDestinationFile(
                                     $model,
-                                    get_class($relationObj->getRelated())
+                                    $collectionClass
                                 );
-
-                                if (strpos(get_class($relationObj), 'Many') !== false) {
-                                    //Collection or array of models (because Collection is Arrayable)
-                                    $relatedClass = '\\' . get_class($relationObj->getRelated());
-                                    $collectionClass = $this->getCollectionClass($relatedClass);
-                                    $collectionClassNameInModel = $this->getClassNameInDestinationFile(
-                                        $model,
-                                        $collectionClass
-                                    );
-                                    $this->setProperty(
-                                        $method,
-                                        $collectionClassNameInModel . '|' . $relatedModel . '[]',
-                                        true,
-                                        null,
-                                        $comment
-                                    );
-                                    if ($this->write_model_relation_count_properties) {
-                                        $this->setProperty(
-                                            Str::snake($method) . '_count',
-                                            'int|null',
-                                            true,
-                                            false
-                                        // What kind of comments should be added to the relation count here?
-                                        );
-                                    }
-                                } elseif ($relation === 'morphTo') {
-                                    // Model isn't specified because relation is polymorphic
-                                    $this->setProperty(
-                                        $method,
-                                        $this->getClassNameInDestinationFile($model, Model::class) . '|\Eloquent',
-                                        true,
-                                        null,
-                                        $comment
-                                    );
-                                } else {
-                                    //Single model is returned
-                                    $this->setProperty(
-                                        $method,
-                                        $relatedModel,
-                                        true,
-                                        null,
-                                        $comment,
-                                        $this->isRelationNullable($relation, $relationObj)
-                                    );
-                                }
+                                $this->setProperty(
+                                    $method,
+                                    $collectionClassNameInModel . '|' . $relatedClass . '[]',
+                                    true,
+                                    null,
+                                    $comment
+                                );
+                            } elseif ($relation === 'morphTo') {
+                                // Model isn't specified because relation is polymorphic
+                                $this->setProperty(
+                                    $method,
+                                    $this->getClassNameInDestinationFile($model, Model::class) . '|\Eloquent',
+                                    true,
+                                    null,
+                                    $comment
+                                );
+                            } else {
+                                //Single model is returned
+                                $this->setProperty(
+                                    $method,
+                                    $relatedClass,
+                                    true,
+                                    null,
+                                    $comment,
+                                    $this->isRelationNullable($relation, $relatedClass)
+                                );
                             }
+
+
+
                         }
+
+//                        $search = '$this->' . $relation . '(';
+//                        if (stripos($code, $search) || ltrim($impl, '\\') === ltrim((string)$type, '\\')) {
+//
+//
+//
+//                            //Resolve the relation's model to a Relation object.
+//                            $methodReflection = new \ReflectionMethod($model, $method);
+//                            if ($methodReflection->getNumberOfParameters()) {
+//                                continue;
+//                            }
+//
+//
+//
+//                            $comment = $this->getCommentFromDocBlock($reflection);
+//                            // Adding constraints requires reading model properties which
+//                            // can cause errors. Since we don't need constraints we can
+//                            // disable them when we fetch the relation to avoid errors.
+//                            $relationObj = Relation::noConstraints(function () use ($model, $method) {
+//                                try {
+//                                    return $model->$method();
+//                                } catch (Throwable $e) {
+//                                    $this->warn(sprintf('Error resolving relation model of %s:%s() : %s', get_class($model), $method, $e->getMessage()));
+//
+//                                    return null;
+//                                }
+//                            });
+//
+//                            if ($relationObj instanceof Relation) {
+//                                $relatedModel = $this->getClassNameInDestinationFile(
+//                                    $model,
+//                                    get_class($relationObj->getRelated())
+//                                );
+//
+//                                if (strpos(get_class($relationObj), 'Many') !== false) {
+//                                    //Collection or array of models (because Collection is Arrayable)
+//                                    $relatedClass = '\\' . get_class($relationObj->getRelated());
+//                                    $collectionClass = $this->getCollectionClass($relatedClass);
+//                                    $collectionClassNameInModel = $this->getClassNameInDestinationFile(
+//                                        $model,
+//                                        $collectionClass
+//                                    );
+//                                    $this->setProperty(
+//                                        $method,
+//                                        $collectionClassNameInModel . '|' . $relatedModel . '[]',
+//                                        true,
+//                                        null,
+//                                        $comment
+//                                    );
+//                                    if ($this->write_model_relation_count_properties) {
+//                                        $this->setProperty(
+//                                            Str::snake($method) . '_count',
+//                                            'int|null',
+//                                            true,
+//                                            false
+//                                        // What kind of comments should be added to the relation count here?
+//                                        );
+//                                    }
+//                                } elseif ($relation === 'morphTo') {
+//                                    // Model isn't specified because relation is polymorphic
+//                                    $this->setProperty(
+//                                        $method,
+//                                        $this->getClassNameInDestinationFile($model, Model::class) . '|\Eloquent',
+//                                        true,
+//                                        null,
+//                                        $comment
+//                                    );
+//                                } else {
+//                                    //Single model is returned
+//                                    $this->setProperty(
+//                                        $method,
+//                                        $relatedModel,
+//                                        true,
+//                                        null,
+//                                        $comment,
+//                                        $this->isRelationNullable($relation, $relationObj)
+//                                    );
+//                                }
+//                            }
+//                        }
                     }
                 }
             }
@@ -691,7 +739,7 @@ class ModelsCommand extends Command
     /**
      * Check if the relation is nullable
      *
-     * @param string   $relation
+     * @param string $relation
      * @param Relation $relationObj
      *
      * @return bool
@@ -718,12 +766,12 @@ class ModelsCommand extends Command
     }
 
     /**
-     * @param string      $name
+     * @param string $name
      * @param string|null $type
-     * @param bool|null   $read
-     * @param bool|null   $write
+     * @param bool|null $read
+     * @param bool|null $write
      * @param string|null $comment
-     * @param bool        $nullable
+     * @param bool $nullable
      */
     public function setProperty($name, $type = null, $read = null, $write = null, $comment = '', $nullable = false)
     {
@@ -732,7 +780,7 @@ class ModelsCommand extends Command
             $this->properties[$name]['type'] = 'mixed';
             $this->properties[$name]['read'] = false;
             $this->properties[$name]['write'] = false;
-            $this->properties[$name]['comment'] = (string) $comment;
+            $this->properties[$name]['comment'] = (string)$comment;
         }
         if ($type !== null) {
             $newType = $this->getTypeOverride($type);
@@ -1069,7 +1117,7 @@ class ModelsCommand extends Command
         $type = implode('|', $types);
 
         if ($returnType->allowsNull()) {
-            $type .='|null';
+            $type .= '|null';
         }
 
         return $type;
@@ -1159,7 +1207,7 @@ class ModelsCommand extends Command
     }
 
     /**
-     * @param  string  $type
+     * @param string $type
      * @return string|null
      * @throws \ReflectionException
      */
@@ -1207,8 +1255,7 @@ class ModelsCommand extends Command
     {
         $reflection = $model instanceof ReflectionClass
             ? $model
-            : new ReflectionObject($model)
-        ;
+            : new ReflectionObject($model);
 
         $className = trim($className, '\\');
         $writingToExternalFile = !$this->write;
@@ -1273,10 +1320,10 @@ class ModelsCommand extends Command
             $type = implode('|', $types);
 
             if ($paramType->allowsNull()) {
-                if (count($types)==1) {
+                if (count($types) == 1) {
                     $type = '?' . $type;
                 } else {
-                    $type .='|null';
+                    $type .= '|null';
                 }
             }
 
@@ -1353,7 +1400,7 @@ class ModelsCommand extends Command
         } else {
             $types = [];
             foreach ($reflection_type->getTypes() as $named_type) {
-                if ($named_type->getName()==='null') {
+                if ($named_type->getName() === 'null') {
                     continue;
                 }
 
