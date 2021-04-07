@@ -6,15 +6,15 @@
  * @author    Barry vd. Heuvel <barryvdh@gmail.com>
  * @copyright 2014 Barry vd. Heuvel / Fruitcake Studio (http://www.fruitcakestudio.nl)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/barryvdh/laravel-ide-helper
+ * @link      https://github.com/barryvdh/october-october-ide-helper
  */
 
-namespace Barryvdh\LaravelIdeHelper;
+namespace Mikedevs\OctoberIdeHelper;
 
-use Barryvdh\Reflection\DocBlock;
-use Barryvdh\Reflection\DocBlock\Context;
-use Barryvdh\Reflection\DocBlock\Serializer as DocBlockSerializer;
-use Barryvdh\Reflection\DocBlock\Tag\MethodTag;
+use Mikedevs\Reflection\DocBlock;
+use Mikedevs\Reflection\DocBlock\Context;
+use Mikedevs\Reflection\DocBlock\Serializer as DocBlockSerializer;
+use Mikedevs\Reflection\DocBlock\Tag\MethodTag;
 use Closure;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -427,7 +427,7 @@ class Alias
             return '';
         }
 
-        if ($this->config->get('ide-helper.include_class_docblocks')) {
+        if ($this->config->get('october-ide-helper.include_class_docblocks')) {
             // if a class doesn't expose any DocBlock tags
             // we can perform reflection on the class and
             // add in the original class DocBlock

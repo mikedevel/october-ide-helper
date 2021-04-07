@@ -8,7 +8,7 @@ namespace PHPSTORM_META {
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
-    * @see https://github.com/barryvdh/laravel-ide-helper
+    * @see https://github.com/barryvdh/october-october-ide-helper
     */
 <?php foreach ($methods as $method) : ?>
     override(<?= $method ?>, map([

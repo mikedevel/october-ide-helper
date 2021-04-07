@@ -119,7 +119,7 @@ return [
     | Model locations to include
     |--------------------------------------------------------------------------
     |
-    | Define in which directories the ide-helper:models command should look
+    | Define in which directories the october-ide-helper:models command should look
     | for models.
     |
     | glob patterns are supported to easier reach models in sub-directories,
@@ -151,7 +151,7 @@ return [
     |
     | Define which hook classes you want to run for models to add custom information
     |
-    | Hooks should implement Barryvdh\LaravelIdeHelper\Contracts\ModelHookInterface.
+    | Hooks should implement Mikedevs\OctoberIdeHelper\Contracts\ModelHookInterface.
     |
     */
 
@@ -302,7 +302,7 @@ return [
     |
     */
     'post_migrate' => [
-        // 'ide-helper:models --nowrite',
+        // 'october-ide-helper:models --nowrite',
     ],
 
 ];

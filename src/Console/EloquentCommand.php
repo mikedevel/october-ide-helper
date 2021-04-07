@@ -6,12 +6,12 @@
  * @author    Charles A. Peterson <artistan@gmail.com>
  * @copyright 2017 Charles A. Peterson / Fruitcake Studio (http://www.fruitcakestudio.nl)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/barryvdh/laravel-ide-helper
+ * @link      https://github.com/barryvdh/october-october-ide-helper
  */
 
-namespace Barryvdh\LaravelIdeHelper\Console;
+namespace Mikedevs\OctoberIdeHelper\Console;
 
-use Barryvdh\LaravelIdeHelper\Eloquent;
+use Mikedevs\OctoberIdeHelper\Eloquent;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
@@ -27,7 +27,7 @@ class EloquentCommand extends Command
      *
      * @var string
      */
-    protected $name = 'ide-helper:eloquent';
+    protected $name = 'october-ide-helper:eloquent';
 
     /**
      * @var Filesystem $files

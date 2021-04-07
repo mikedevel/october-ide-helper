@@ -1,6 +1,6 @@
 <?php
 
-namespace Barryvdh\LaravelIdeHelper;
+namespace Mikedevs\OctoberIdeHelper;
 
 use Exception;
 use Illuminate\Database\Eloquent\Factory;

@@ -6,12 +6,12 @@
  * @author    Barry vd. Heuvel <barryvdh@gmail.com>
  * @copyright 2015 Barry vd. Heuvel / Fruitcake Studio (http://www.fruitcakestudio.nl)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/barryvdh/laravel-ide-helper
+ * @link      https://github.com/barryvdh/october-october-ide-helper
  */
 
-namespace Barryvdh\LaravelIdeHelper\Console;
+namespace Mikedevs\OctoberIdeHelper\Console;
 
-use Barryvdh\LaravelIdeHelper\Factories;
+use Mikedevs\OctoberIdeHelper\Factories;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,7 +28,7 @@ class MetaCommand extends Command
      *
      * @var string
      */
-    protected $name = 'ide-helper:meta';
+    protected $name = 'october-ide-helper:meta';
 
     /**
      * The console command description.
@@ -82,7 +82,7 @@ class MetaCommand extends Command
     public function handle()
     {
         // Needs to run before exception handler is registered
-        $factories = $this->config->get('ide-helper.include_factory_builders') ? Factories::all() : [];
+        $factories = $this->config->get('october-ide-helper.include_factory_builders') ? Factories::all() : [];
 
         $this->registerClassAutoloadExceptions();
 
@@ -158,7 +158,7 @@ class MetaCommand extends Command
      */
     protected function getOptions()
     {
-        $filename = $this->config->get('ide-helper.meta_filename');
+        $filename = $this->config->get('october-ide-helper.meta_filename');
 
         return [
             ['filename', 'F', InputOption::VALUE_OPTIONAL, 'The path to the meta file', $filename],

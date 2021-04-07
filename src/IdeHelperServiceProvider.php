@@ -6,16 +6,16 @@
  * @author    Barry vd. Heuvel <barryvdh@gmail.com>
  * @copyright 2014 Barry vd. Heuvel / Fruitcake Studio (http://www.fruitcakestudio.nl)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/barryvdh/laravel-ide-helper
+ * @link      https://github.com/barryvdh/october-october-ide-helper
  */
 
-namespace Barryvdh\LaravelIdeHelper;
+namespace Mikedevs\OctoberIdeHelper;
 
-use Barryvdh\LaravelIdeHelper\Console\EloquentCommand;
-use Barryvdh\LaravelIdeHelper\Console\GeneratorCommand;
-use Barryvdh\LaravelIdeHelper\Console\MetaCommand;
-use Barryvdh\LaravelIdeHelper\Console\ModelsCommand;
-use Barryvdh\LaravelIdeHelper\Listeners\GenerateModelHelper;
+use Mikedevs\OctoberIdeHelper\Console\EloquentCommand;
+use Mikedevs\OctoberIdeHelper\Console\GeneratorCommand;
+use Mikedevs\OctoberIdeHelper\Console\MetaCommand;
+use Mikedevs\OctoberIdeHelper\Console\ModelsCommand;
+use Mikedevs\OctoberIdeHelper\Listeners\GenerateModelHelper;
 use Illuminate\Console\Events\CommandFinished;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Database\Events\MigrationsEnded;
@@ -34,7 +34,7 @@ class IdeHelperServiceProvider extends ServiceProvider implements DeferrableProv
      */
     public function boot()
     {
-        if (!$this->app->runningUnitTests() && $this->app['config']->get('ide-helper.post_migrate', [])) {
+        if (!$this->app->runningUnitTests() && $this->app['config']->get('october-ide-helper.post_migrate', [])) {
             $this->app['events']->listen(CommandFinished::class, GenerateModelHelper::class);
             $this->app['events']->listen(MigrationsEnded::class, function () {
                 GenerateModelHelper::$shouldRun = true;
@@ -43,14 +43,14 @@ class IdeHelperServiceProvider extends ServiceProvider implements DeferrableProv
 
         if ($this->app->has('view')) {
             $viewPath = __DIR__ . '/../resources/views';
-            $this->loadViewsFrom($viewPath, 'ide-helper');
+            $this->loadViewsFrom($viewPath, 'october-ide-helper');
         }
 
-        $configPath = __DIR__ . '/../config/ide-helper.php';
+        $configPath = __DIR__ . '/../config/october-ide-helper.php';
         if (function_exists('config_path')) {
-            $publishPath = config_path('ide-helper.php');
+            $publishPath = config_path('october-ide-helper.php');
         } else {
-            $publishPath = base_path('config/ide-helper.php');
+            $publishPath = base_path('config/october-ide-helper.php');
         }
         $this->publishes([$configPath => $publishPath], 'config');
     }
@@ -62,43 +62,43 @@ class IdeHelperServiceProvider extends ServiceProvider implements DeferrableProv
      */
     public function register()
     {
-        $configPath = __DIR__ . '/../config/ide-helper.php';
-        $this->mergeConfigFrom($configPath, 'ide-helper');
+        $configPath = __DIR__ . '/../config/october-ide-helper.php';
+        $this->mergeConfigFrom($configPath, 'october-ide-helper');
         $localViewFactory = $this->createLocalViewFactory();
 
         $this->app->singleton(
-            'command.ide-helper.generate',
+            'command.october-ide-helper.generate',
             function ($app) use ($localViewFactory) {
                 return new GeneratorCommand($app['config'], $app['files'], $localViewFactory);
             }
         );
 
         $this->app->singleton(
-            'command.ide-helper.models',
+            'command.october-ide-helper.models',
             function ($app) {
                 return new ModelsCommand($app['files']);
             }
         );
 
         $this->app->singleton(
-            'command.ide-helper.meta',
+            'command.october-ide-helper.meta',
             function ($app) use ($localViewFactory) {
                 return new MetaCommand($app['files'], $localViewFactory, $app['config']);
             }
         );
 
         $this->app->singleton(
-            'command.ide-helper.eloquent',
+            'command.october-ide-helper.eloquent',
             function ($app) {
                 return new EloquentCommand($app['files']);
             }
         );
 
         $this->commands(
-            'command.ide-helper.generate',
-            'command.ide-helper.models',
-            'command.ide-helper.meta',
-            'command.ide-helper.eloquent'
+            'command.october-ide-helper.generate',
+            'command.october-ide-helper.models',
+            'command.october-ide-helper.meta',
+            'command.october-ide-helper.eloquent'
         );
     }
 
@@ -109,7 +109,7 @@ class IdeHelperServiceProvider extends ServiceProvider implements DeferrableProv
      */
     public function provides()
     {
-        return ['command.ide-helper.generate', 'command.ide-helper.models'];
+        return ['command.october-ide-helper.generate', 'command.october-ide-helper.models'];
     }
 
     /**

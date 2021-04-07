@@ -1,8 +1,8 @@
 <?php
 
-namespace Barryvdh\LaravelIdeHelper\Contracts;
+namespace Mikedevs\OctoberIdeHelper\Contracts;
 
-use Barryvdh\LaravelIdeHelper\Console\ModelsCommand;
+use Mikedevs\OctoberIdeHelper\Console\ModelsCommand;
 use Illuminate\Database\Eloquent\Model;
 
 interface ModelHookInterface

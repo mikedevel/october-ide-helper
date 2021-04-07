@@ -6,10 +6,10 @@
  * @author    Barry vd. Heuvel <barryvdh@gmail.com>
  * @copyright 2014 Barry vd. Heuvel / Fruitcake Studio (http://www.fruitcakestudio.nl)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/barryvdh/laravel-ide-helper
+ * @link      https://github.com/barryvdh/october-october-ide-helper
  */
 
-namespace Barryvdh\LaravelIdeHelper;
+namespace Mikedevs\OctoberIdeHelper;
 
 use PhpParser\Node\Stmt\GroupUse;
 use PhpParser\Node\Stmt\Namespace_;

@@ -6,13 +6,13 @@
  * @author    Barry vd. Heuvel <barryvdh@gmail.com>
  * @copyright 2014 Barry vd. Heuvel / Fruitcake Studio (http://www.fruitcakestudio.nl)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/barryvdh/laravel-ide-helper
+ * @link      https://github.com/barryvdh/october-october-ide-helper
  */
 
-namespace Barryvdh\LaravelIdeHelper\Console;
+namespace Mikedevs\OctoberIdeHelper\Console;
 
-use Barryvdh\LaravelIdeHelper\Eloquent;
-use Barryvdh\LaravelIdeHelper\Generator;
+use Mikedevs\OctoberIdeHelper\Eloquent;
+use Mikedevs\OctoberIdeHelper\Generator;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputArgument;
@@ -30,7 +30,7 @@ class GeneratorCommand extends Command
      *
      * @var string
      */
-    protected $name = 'ide-helper:generate';
+    protected $name = 'october-ide-helper:generate';
 
     /**
      * The console command description.
@@ -102,8 +102,8 @@ class GeneratorCommand extends Command
 
 
         $helpers = '';
-        if ($this->option('helpers') || ($this->config->get('ide-helper.include_helpers'))) {
-            foreach ($this->config->get('ide-helper.helper_files', []) as $helper) {
+        if ($this->option('helpers') || ($this->config->get('october-ide-helper.include_helpers'))) {
+            foreach ($this->config->get('october-ide-helper.helper_files', []) as $helper) {
                 if (file_exists($helper)) {
                     $helpers .= str_replace(['<?php', '?>'], '', $this->files->get($helper));
                 }
@@ -147,7 +147,7 @@ class GeneratorCommand extends Command
      */
     protected function getArguments()
     {
-        $filename = $this->config->get('ide-helper.filename');
+        $filename = $this->config->get('october-ide-helper.filename');
 
         return [
             [
@@ -163,7 +163,7 @@ class GeneratorCommand extends Command
      */
     protected function getOptions()
     {
-        $writeMixins = $this->config->get('ide-helper.write_eloquent_model_mixins');
+        $writeMixins = $this->config->get('october-ide-helper.write_eloquent_model_mixins');
 
         return [
             ['write_mixins', 'W', InputOption::VALUE_OPTIONAL, 'Write mixins to Laravel Model?', $writeMixins],

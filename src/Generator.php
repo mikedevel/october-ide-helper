@@ -6,10 +6,10 @@
  * @author    Barry vd. Heuvel <barryvdh@gmail.com>
  * @copyright 2014 Barry vd. Heuvel / Fruitcake Studio (http://www.fruitcakestudio.nl)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/barryvdh/laravel-ide-helper
+ * @link      https://github.com/barryvdh/october-october-ide-helper
  */
 
-namespace Barryvdh\LaravelIdeHelper;
+namespace Mikedevs\OctoberIdeHelper;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Collection;
@@ -54,9 +54,9 @@ class Generator
         // Find the drivers to add to the extra/interfaces
         $this->detectDrivers();
 
-        $this->extra = array_merge($this->extra, $this->config->get('ide-helper.extra'), []);
-        $this->magic = array_merge($this->magic, $this->config->get('ide-helper.magic'), []);
-        $this->interfaces = array_merge($this->interfaces, $this->config->get('ide-helper.interfaces'), []);
+        $this->extra = array_merge($this->extra, $this->config->get('october-ide-helper.extra'), []);
+        $this->magic = array_merge($this->magic, $this->config->get('october-ide-helper.magic'), []);
+        $this->interfaces = array_merge($this->interfaces, $this->config->get('october-ide-helper.interfaces'), []);
         // Make all interface classes absolute
         foreach ($this->interfaces as &$interface) {
             $interface = '\\' . ltrim($interface, '\\');
@@ -77,8 +77,8 @@ class Generator
             ->with('namespaces_by_alias_ns', $this->getAliasesByAliasNamespace())
             ->with('helpers', $this->helpers)
             ->with('version', $app->version())
-            ->with('include_fluent', $this->config->get('ide-helper.include_fluent', true))
-            ->with('factories', $this->config->get('ide-helper.include_factory_builders') ? Factories::all() : [])
+            ->with('include_fluent', $this->config->get('october-ide-helper.include_fluent', true))
+            ->with('factories', $this->config->get('october-ide-helper.include_factory_builders') ? Factories::all() : [])
             ->render();
     }
 

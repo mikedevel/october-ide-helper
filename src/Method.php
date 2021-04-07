@@ -6,23 +6,23 @@
  * @author    Barry vd. Heuvel <barryvdh@gmail.com>
  * @copyright 2014 Barry vd. Heuvel / Fruitcake Studio (http://www.fruitcakestudio.nl)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/barryvdh/laravel-ide-helper
+ * @link      https://github.com/barryvdh/october-october-ide-helper
  */
 
-namespace Barryvdh\LaravelIdeHelper;
+namespace Mikedevs\OctoberIdeHelper;
 
-use Barryvdh\Reflection\DocBlock;
-use Barryvdh\Reflection\DocBlock\Context;
-use Barryvdh\Reflection\DocBlock\Serializer as DocBlockSerializer;
-use Barryvdh\Reflection\DocBlock\Tag;
-use Barryvdh\Reflection\DocBlock\Tag\ParamTag;
-use Barryvdh\Reflection\DocBlock\Tag\ReturnTag;
+use Mikedevs\Reflection\DocBlock;
+use Mikedevs\Reflection\DocBlock\Context;
+use Mikedevs\Reflection\DocBlock\Serializer as DocBlockSerializer;
+use Mikedevs\Reflection\DocBlock\Tag;
+use Mikedevs\Reflection\DocBlock\Tag\ParamTag;
+use Mikedevs\Reflection\DocBlock\Tag\ReturnTag;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class Method
 {
-    /** @var \Barryvdh\Reflection\DocBlock  */
+    /** @var  \Barryvdh\Reflection\DocBlock  */
     protected $phpdoc;
 
     /** @var \ReflectionMethod  */

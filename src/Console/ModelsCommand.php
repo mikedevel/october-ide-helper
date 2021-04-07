@@ -6,16 +6,16 @@
  * @author    Barry vd. Heuvel <barryvdh@gmail.com>
  * @copyright 2014 Barry vd. Heuvel / Fruitcake Studio (http://www.fruitcakestudio.nl)
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/barryvdh/laravel-ide-helper
+ * @link      https://github.com/barryvdh/october-october-ide-helper
  */
 
-namespace Barryvdh\LaravelIdeHelper\Console;
+namespace Mikedevs\OctoberIdeHelper\Console;
 
-use Barryvdh\LaravelIdeHelper\Contracts\ModelHookInterface;
-use Barryvdh\Reflection\DocBlock;
-use Barryvdh\Reflection\DocBlock\Context;
-use Barryvdh\Reflection\DocBlock\Serializer as DocBlockSerializer;
-use Barryvdh\Reflection\DocBlock\Tag;
+use Mikedevs\OctoberIdeHelper\Contracts\ModelHookInterface;
+use Mikedevs\Reflection\DocBlock;
+use Mikedevs\Reflection\DocBlock\Context;
+use Mikedevs\Reflection\DocBlock\Serializer as DocBlockSerializer;
+use Mikedevs\Reflection\DocBlock\Tag;
 use Composer\Autoload\ClassMapGenerator;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
@@ -75,7 +75,7 @@ class ModelsCommand extends Command
      *
      * @var string
      */
-    protected $name = 'ide-helper:models';
+    protected $name = 'october-ide-helper:models';
     protected $filename = '_ide_helper_models.php';
 
     /**
@@ -129,7 +129,7 @@ class ModelsCommand extends Command
         $this->write = $this->option('write');
         $this->write_mixin = $this->option('write-mixin');
         $this->dirs = array_merge(
-            $this->laravel['config']->get('ide-helper.model_locations', []),
+            $this->laravel['config']->get('october-ide-helper.model_locations', []),
             $this->option('dir')
         );
         $model = $this->argument('model');
@@ -139,10 +139,10 @@ class ModelsCommand extends Command
         if ($this->option('smart-reset')) {
             $this->keep_text = $this->reset = true;
         }
-        $this->write_model_magic_where = $this->laravel['config']->get('ide-helper.write_model_magic_where', true);
-        $this->write_model_external_builder_methods = $this->laravel['config']->get('ide-helper.write_model_external_builder_methods', true);
+        $this->write_model_magic_where = $this->laravel['config']->get('october-ide-helper.write_model_magic_where', true);
+        $this->write_model_external_builder_methods = $this->laravel['config']->get('october-ide-helper.write_model_external_builder_methods', true);
         $this->write_model_relation_count_properties =
-            $this->laravel['config']->get('ide-helper.write_model_relation_count_properties', true);
+            $this->laravel['config']->get('october-ide-helper.write_model_relation_count_properties', true);
 
         $this->write = $this->write_mixin ? true : $this->write;
         //If filename is default and Write is not specified, ask what to do
@@ -238,7 +238,7 @@ class ModelsCommand extends Command
 
         $ignore = array_merge(
             explode(',', $ignore),
-            $this->laravel['config']->get('ide-helper.ignored_models', [])
+            $this->laravel['config']->get('october-ide-helper.ignored_models', [])
         );
 
         foreach ($models as $name) {
@@ -406,7 +406,7 @@ class ModelsCommand extends Command
      */
     protected function getTypeOverride($type)
     {
-        $typeOverrides = $this->laravel['config']->get('ide-helper.type_overrides', []);
+        $typeOverrides = $this->laravel['config']->get('october-ide-helper.type_overrides', []);
 
         return $typeOverrides[$type] ?? $type;
     }
@@ -424,7 +424,7 @@ class ModelsCommand extends Command
         $databasePlatform->registerDoctrineTypeMapping('enum', 'string');
 
         $platformName = $databasePlatform->getName();
-        $customTypes = $this->laravel['config']->get("ide-helper.custom_db_types.{$platformName}", []);
+        $customTypes = $this->laravel['config']->get("october-ide-helper.custom_db_types.{$platformName}", []);
         foreach ($customTypes as $yourTypeName => $doctrineTypeName) {
             $databasePlatform->registerDoctrineTypeMapping($yourTypeName, $doctrineTypeName);
         }
@@ -987,7 +987,7 @@ class ModelsCommand extends Command
      */
     protected function getRelationTypes(): array
     {
-        $configuredRelations = $this->laravel['config']->get('ide-helper.additional_relation_types', []);
+        $configuredRelations = $this->laravel['config']->get('october-ide-helper.additional_relation_types', []);
         return array_merge(self::RELATION_TYPES, $configuredRelations);
     }
 
@@ -996,7 +996,7 @@ class ModelsCommand extends Command
      */
     protected function hasCamelCaseModelProperties()
     {
-        return $this->laravel['config']->get('ide-helper.model_camel_case_properties', false);
+        return $this->laravel['config']->get('october-ide-helper.model_camel_case_properties', false);
     }
 
     protected function getReturnType(\ReflectionMethod $reflection): ?string
@@ -1213,7 +1213,7 @@ class ModelsCommand extends Command
         $className = trim($className, '\\');
         $writingToExternalFile = !$this->write;
         $classIsNotInExternalFile = $reflection->getName() !== $className;
-        $forceFQCN = $this->laravel['config']->get('ide-helper.force_fqn', false);
+        $forceFQCN = $this->laravel['config']->get('october-ide-helper.force_fqn', false);
 
         if (($writingToExternalFile && $classIsNotInExternalFile) || $forceFQCN) {
             return '\\' . $className;
@@ -1381,14 +1381,14 @@ class ModelsCommand extends Command
      */
     protected function runModelHooks($model): void
     {
-        $hooks = $this->laravel['config']->get('ide-helper.model_hooks', []);
+        $hooks = $this->laravel['config']->get('october-ide-helper.model_hooks', []);
 
         foreach ($hooks as $hook) {
             $hookInstance = $this->laravel->make($hook);
 
             if (!$hookInstance instanceof ModelHookInterface) {
                 throw new \RuntimeException(
-                    'Your IDE helper model hook must implement Barryvdh\LaravelIdeHelper\Contracts\ModelHookInterface'
+                    'Your IDE helper model hook must implement Mikedevs\OctoberIdeHelper\Contracts\ModelHookInterface'
                 );
             }
 
