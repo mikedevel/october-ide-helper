@@ -29,8 +29,6 @@ You can re-generate the docs yourself (for future updates)
 php artisan mikedevs:october-ide-helper:models --dir="path/to/plugin/models"
 ```
 /**
- * App\Models\Post
- *
  * @property integer $id
  * @property integer $author_id
  * @property string $title
